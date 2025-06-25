@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bakso Sidodadi - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-card {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .login-card:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        .input-field:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        .logo-text {
+            font-family: 'Arial', sans-serif;
+            color: #d82b2b;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .banner {
+            background: linear-gradient(135deg, #ff6b6b, #d82b2b);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <!-- Login Container -->
+    <div class="container mx-auto px-4">
+        <div class="max-w-md mx-auto">
+            <!-- Logo -->
+            <div class="text-center mb-8">
+                <div class="banner text-white py-2 px-6 rounded-full inline-block mb-4">
+                    <i class="fas fa-utensils text-2xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold logo-text">Bakso Sidodadi</h1>
+                <p class="text-gray-600 mt-2">Rasakan Kenikmatan Bakso Legendaris</p>
+            </div>
+            
+            <!-- Login Card -->
+            <div class="bg-white rounded-xl p-8 login-card">
+                <h2 class="text-2xl font-bold text-center mb-6">Selamat Datang</h2>
+                
+                <!-- Login Form -->
+                <form id="loginForm">
+                    <!-- Username Field -->
+                    <div class="mb-4">
+                        <label for="username" class="block text-gray-700 text-sm font-medium mb-2">Username</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-gray-400"></i>
+                            </div>
+                            <input type="text" id="username" name="username" 
+                                   class="input-field pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                                   placeholder="Masukkan username" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Password Field -->
+                    <div class="mb-6">
+                        <label for="password" class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input type="password" id="password" name="password" 
+                                   class="input-field pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" 
+                                   placeholder="Masukkan password" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center">
+                            <input id="remember" name="remember" type="checkbox" 
+                                   class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label for="remember" class="ml-2 block text-sm text-gray-700">
+                                Ingat saya
+                            </label>
+                        </div>
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-red-600 hover:text-red-500">
+                                Lupa password?
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" 
+                            class="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Masuk
+                    </button>
+                </form>
+                
+                <!-- Register Link -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        Pelanggan baru? 
+                        <a href="#" class="font-medium text-red-600 hover:text-red-500">
+                            Daftar member sekarang
+                        </a>
+                    </p>
+                </div>
+                
+                <!-- Pesan Khusus -->
+                <div class="mt-6 p-3 bg-yellow-50 border border-yellow-200 rounded text-center text-sm text-yellow-700">
+                    <i class="fas fa-info-circle mr-1"></i> Dapatkan diskon 10% untuk member baru!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            
+            // Validasi username dan password
+            if (username === '' || password === '') {
+                alert('Username dan password harus diisi!');
+                return;
+            }
+
+            // Simulasi login berhasil
+            if (username === 'anggia' && password === '052309') {
+                const welcomeMessages = [
+                    "Selamat datang kembali di Bakso Sidodadi!",
+                    "Kami merindukan pesanan bakso spesial Anda!",
+                    "Yuk pesan bakso favorit Anda sekarang!",
+                    "Special menu hari ini: Bakso Bom dengan kuah asam pedas!"
+                ];
+                
+                const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+                alert(randomMessage + `\n\nUsername: ${username}`);
+                // Redirect ke halaman utama atau menu setelah login
+                window.location.href = 'menu.html'; 
+            } else {
+                alert('Username atau password salah!');
+            }
+        });
+    </script>
+    
+</body>
+</html>

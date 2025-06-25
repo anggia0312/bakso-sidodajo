@@ -1,0 +1,77 @@
+/* ==========================
+   STYLE UMUM UNTUK WEBSITE
+   ========================== */
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fefefe;
+  color: #333;
+}
+
+img {
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.03);
+}
+
+/* ==========================
+   KARTU MENU
+   ========================== */
+
+.menu-card {
+  background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* ==========================
+   TOMBOL TAMBAH & UMUM
+   ========================== */
+
+.add-to-cart,
+button {
+  transition: all 0.3s ease;
+}
+
+.add-to-cart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ==========================
+   FORM INPUT & VALIDASI
+   ========================== */
+
+input:focus,
+textarea:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+  outline: none;
+}
+
+input,
+textarea {
+  transition: all 0.2s ease;
+}
+
+/* ==========================
+   MODAL / STRUK DIGITAL
+   ========================== */
+
+#struk-isi {
+  border-left: 4px solid #22c55e;
+  background-color: #f0fdf4;
+  font-family: monospace;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}

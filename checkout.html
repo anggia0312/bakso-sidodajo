@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Konfirmasi Pesanan - Bakso Sidodarjo</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .card {
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .btn-konfirmasi {
+      background: linear-gradient(to right, #ef4444, #dc2626);
+      transition: all 0.2s;
+    }
+    .btn-konfirmasi:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+    input:focus, textarea:focus {
+      outline: 2px solid #ef4444;
+      outline-offset: -1px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-red-600 text-white shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-utensils text-xl"></i>
+        <h1 class="font-bold text-lg">Bakso Sidodarjo</h1>
+      </div>
+      <span class="text-sm">Konfirmasi Pesanan</span>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container mx-auto px-4 py-6">
+    <div class="max-w-md mx-auto space-y-4">
+
+      <!-- Kembali -->
+      <div>
+        <a href="menu.html" class="text-red-600 hover:text-red-800 flex items-center">
+          <i class="fas fa-arrow-left mr-2"></i>Kembali ke Menu
+        </a>
+      </div>
+
+      <!-- Ringkasan Pesanan -->
+      <div class="card overflow-hidden">
+        <div class="bg-red-600 text-white px-4 py-2 font-semibold">
+          <i class="fas fa-clipboard-list mr-2"></i>Pesanan Anda
+        </div>
+        <div id="daftar-pesanan" class="p-4 space-y-3 text-sm">
+          <p class="text-gray-500 text-center py-4">
+            <i class="fas fa-shopping-basket text-3xl mb-2 text-gray-300"></i>
+            Tidak ada pesanan
+          </p>
+        </div>
+        <div class="border-t px-4 py-3 bg-gray-50 flex justify-between font-bold">
+          <span>Total Pembayaran</span>
+          <span id="total-harga" class="text-red-600">Rp 0</span>
+        </div>
+      </div>
+
+      <!-- Form Data -->
+      <div class="card overflow-hidden">
+        <div class="bg-red-600 text-white px-4 py-2 font-semibold">
+          <i class="fas fa-user mr-2"></i>Data Diri
+        </div>
+        <div class="p-4 space-y-4">
+          <input type="text" id="nama-pemesan" placeholder="Nama Lengkap" required class="w-full px-3 py-2 border rounded">
+          <input type="tel" id="nomor-hp" placeholder="No WhatsApp (08xxx)" required class="w-full px-3 py-2 border rounded">
+          <textarea id="alamat-pengiriman" placeholder="Alamat Lengkap" rows="3" required class="w-full px-3 py-2 border rounded"></textarea>
+        </div>
+      </div>
+
+      <!-- Catatan -->
+      <div class="card overflow-hidden">
+        <div class="bg-red-600 text-white px-4 py-2 font-semibold">
+          <i class="fas fa-sticky-note mr-2"></i>Catatan Tambahan (Opsional)
+        </div>
+        <div class="p-4">
+          <textarea id="catatan-tambahan" rows="2" class="w-full px-3 py-2 border rounded"></textarea>
+        </div>
+      </div>
+
+      <!-- Metode Pembayaran -->
+      <div class="card overflow-hidden">
+        <div class="bg-red-600 text-white px-4 py-2 font-semibold">
+          <i class="fas fa-money-bill-wave mr-2"></i>Pembayaran
+        </div>
+        <div class="p-4 space-y-2">
+          <label class="flex items-center space-x-3"><input type="radio" name="pembayaran" value="COD" checked class="h-4 w-4 text-red-600"> <span>Bayar di Tempat (Cash)</span></label>
+          <label class="flex items-center space-x-3"><input type="radio" name="pembayaran" value="Transfer" class="h-4 w-4 text-red-600"> <span>Transfer Bank</span></label>
+        </div>
+      </div>
+
+      <!-- Tombol -->
+      <button id="btn-kirim-pesanan" class="btn-konfirmasi w-full py-3 rounded-lg text-white font-bold text-lg">
+        <i class="fas fa-paper-plane mr-2"></i>Kirim Pesanan
+      </button>
+
+      <!-- Struk -->
+      <div id="resep-pesanan" class="hidden card p-4 bg-green-50 mt-4">
+        <h3 class="font-bold text-green-700 mb-3">
+          <i class="fas fa-receipt mr-2"></i>Struk Pesanan
+        </h3>
+        <pre id="detail-pesanan" class="text-sm whitespace-pre-wrap font-mono text-gray-700"></pre>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const daftarPesananEl = document.getElementById('daftar-pesanan');
+    const totalHargaEl = document.getElementById('total-harga');
+
+    // Pastikan quantity aman
+    cart.forEach(item => {
+      if (!item.quantity) item.quantity = 1;
+    });
+
+    function tampilkanPesanan() {
+      if (cart.length === 0) {
+        daftarPesananEl.innerHTML = `
+          <p class="text-gray-500 text-center py-4">
+            <i class="fas fa-shopping-basket text-3xl mb-2 text-gray-300"></i>
+            Tidak ada pesanan
+          </p>`;
+        totalHargaEl.textContent = 'Rp 0';
+        return;
+      }
+
+      let total = 0;
+      const itemsHTML = cart.map(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        return `
+        <div class="flex justify-between py-1 border-b border-gray-100">
+          <div>
+            <span>${item.name}</span>
+            <div class="text-sm text-gray-500">Rp ${item.price.toLocaleString('id-ID')} × <input type="number" value="${item.quantity}" min="1" class="w-16 border rounded" onchange="updateQuantity('${item.name}', this.value)"></div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="font-semibold">Rp ${subtotal.toLocaleString('id-ID')}</span>
+            <button onclick="hapusPesanan('${item.name}')" class="text-red-600 hover:text-red-800">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+
+      daftarPesananEl.innerHTML = itemsHTML;
+      totalHargaEl.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+    }
+
+    function updateQuantity(name, quantity) {
+      const item = cart.find(item => item.name === name);
+      if (item) {
+        item.quantity = parseInt(quantity);
+        tampilkanPesanan();
+      }
+    }
+
+    function hapusPesanan(name) {
+      const index = cart.findIndex(item => item.name === name);
+      if (index > -1) {
+        cart.splice(index, 1); // Hapus item dari cart
+        localStorage.setItem('cart', JSON.stringify(cart)); // Simpan perubahan ke localStorage
+        tampilkanPesanan(); // Tampilkan pesanan yang diperbarui
+      }
+    }
+
+    document.getElementById('btn-kirim-pesanan').addEventListener('click', function () {
+      // Logika untuk mengirim pesanan
+      alert('Pesanan telah dikirim!');
+    });
+
+    // Tampilkan pesanan saat halaman dimuat
+    window.onload = tampilkanPesanan;
+  </script>
+</body>
+</html>
+
+
